@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEMO JS - FORM VALIDATE</title>
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+    <header>
+        Patient Intake Form Template
+        <p>Take this form to investigate your patient before admission</p>
+    </header>
+    <form action="" id="form-patient">
+        <div class="flex">
+            <div class="form-group form-text flex-box">
+                <label for="">First Name</label>
+                <input id="first-name" type="text" name="first-name">
+            </div>
+            <div class="form-group form-text flex-box">
+                <label for="">Last Name</label>
+                <input id="last-name" type="text" name="last-name">
+            </div>
+        </div>
+
+        <div class="form-group form-text">
+            <label for="">Patient Age <span>*</span></label>
+            <input id="age" type="number" name="age">
+            <span class="form-message"></span>
+        </div>
+
+        <div class="form-group form-text">
+            <label for="">Nickname</label>
+            <input id="nickname" type="text" name="nickname">
+        </div>
+
+        <div class="form-group form-text">
+            <label for="">Patient Gender <span>*</span></label>
+            <select name="gender" id="gender">
+                <option value="">- Select -</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Others">Others</option>
+            </select>
+            <span class="form-message"></span>
+        </div>
+
+        <div class="form-group form-text">
+            <label for="">Phone no.</label>
+            <input id="phone-no" type="text" name="phone-no">
+        </div>
+
+        <div class="form-group form-text">
+            <label for="">Email <span>*</span></label>
+            <input id="email" type="text" name="email">
+            <span class="form-message"></span>
+        </div>
+
+        <div class="form-group form-text">
+            <label for="">With whome do you live?</label>
+            <input id="live" type="text" name="live">
+        </div>
+
+        <div class="form-group form-group-radio">
+            <p for="marital-status">Marital Status <span>*</span></p>
+            <input type="radio" id="married" name="marital-status" value="Married" class=".form-group">
+            <label for="married">Married</label>
+            <br>
+            <input type="radio" id="unmarried" name="marital-status" value="Unmarried" class=".form-group">
+            <label for="unmarried">Unmarried</label>
+            <br>
+            <input type="radio" id="other" name="marital-status" value="Other" class=".form-group">
+            <label for="other">Other</label>
+            <br>
+            <span class="form-message"></span>
+        </div>
+
+        <div class="form-group form-group-radio">
+            <p for="smoke">Do you smoke?</p>
+            <input type="radio" id="smoke-yes" name="smoke" value="Yes">
+            <label for="smoke-yes">Yes</label>
+            <br>
+            <input type="radio" id="smoke-no" name="smoke" value="No">
+            <label for="smoke-no">No</label>
+            <br>
+        </div>
+
+        <div class="form-group">
+            <label for="">Personal opinion</label>
+            <textarea class="" name="opinion" id="opinion" cols="2" rows="4"></textarea>
+        </div>
+
+        <input class="btn form-submit" type="submit" value="Submit Form">
+        
+        <div id="return" style="margin-top: 40px; line-height: 30px;"></div>
+    </form>
+
+
+
+    <script src="assets/validate.js"></script>
+    <script>
+        Validator({
+            form: '#form-patient',
+            formGroupSelector: '.form-group',
+            errorSelector: '.form-message',
+            rules: [
+                Validator.isRequired('#age'),
+                Validator.isRequired('#email'),
+                Validator.isEmail('#email'),
+                Validator.isRequired('#gender'),
+                Validator.isRequired('input[name="marital-status"]')
+            ],
+        onSubmit: function (data) {
+            console.log(data);
+            var printFile = '<strong>THÔNG TIN ĐÃ NHẬP: </strong> <br>' ;
+            for (var item in data) {
+                if (!item.value)
+                    item.value = ' ';
+                printFile += `${item}: ${data[item]} <br>`;
+            }
+
+            document.getElementById("return").innerHTML  = printFile;
+
+        }
+        })
+    </script>
+</body>
+</html>
