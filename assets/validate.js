@@ -1,14 +1,16 @@
 // Đối tượng `Validator`
 function Validator(options) {
 
-    
+
 
     function getParent(element, selector) {
-        while (element.parentElement) {
-            if (element.parentElement.matches(selector)) {
-                return element.parentElement;
+        if (element != null) {
+            while (element.parentElement) {
+                if (element.parentElement.matches(selector)) {
+                    return element.parentElement;
+                }
+                element = element.parentElement;
             }
-            element = element.parentElement;
         }
     }
 
@@ -18,7 +20,9 @@ function Validator(options) {
 
     // Hàm thực hiện validate
     function validate(inputElement, rule) {
-        var errorElement = getParent(inputElement, options.formGroupSelector).querySelector(options.errorSelector);
+        if  (inputElement != null) {
+            var errorElement = getParent(inputElement, options.formGroupSelector).querySelector(options.errorSelector);
+        }
         var errorMessage;
 
         // Lấy ra các rules của selector
@@ -27,15 +31,17 @@ function Validator(options) {
         // Lặp qua từng rule & kiểm tra
         // Nếu có lỗi thì dừng việc kiểm
         for (var i = 0; i < rules.length; ++i) {
-            switch (inputElement.type) {
-                case 'radio':
-                case 'checkbox':
-                    errorMessage = rules[i](
-                        formElement.querySelector(rule.selector + ':checked')
-                    );
-                    break;
-                default:
-                    errorMessage = rules[i](inputElement.value);
+            if (inputElement != null) {
+                switch (inputElement.type) {
+                    case 'radio':
+                    case 'checkbox':
+                        errorMessage = rules[i](
+                            formElement.querySelector(rule.selector + ':checked')
+                        );
+                        break;
+                    default:
+                        errorMessage = rules[i](inputElement.value);
+                }
             }
             if (errorMessage) break;
         }
@@ -44,8 +50,10 @@ function Validator(options) {
             errorElement.innerText = errorMessage;
             getParent(inputElement, options.formGroupSelector).classList.add('invalid');
         } else {
+           if (inputElement) {
             errorElement.innerText = '';
             getParent(inputElement, options.formGroupSelector).classList.remove('invalid');
+           }
         }
 
         return !errorMessage;
@@ -77,7 +85,12 @@ function Validator(options) {
                         
                         switch(input.type) {
                             case 'radio':
-                                values[input.name] = formElement.querySelector('input[name="' + input.name + '"]:checked').value;
+                                if(formElement.querySelector('input[name="' + input.name + '"]:checked')){
+
+                                    values[input.name] = formElement.querySelector('input[name="' + input.name + '"]:checked').value;
+                                } else {
+                                    values[input.name] = '';
+                                }
                                 break;
                             case 'checkbox':
                                 if (!input.matches(':checked')) {

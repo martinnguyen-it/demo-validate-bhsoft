@@ -119,7 +119,7 @@
                 Validator.isRequired('#marital-status-other')
             ],
         onSubmit: function (data = null) {
-            if (data) {
+            if (data != null) {
                 console.log(data);
                 var printFile = '<strong>THÔNG TIN ĐÃ NHẬP: </strong> <br>' ;
                 for (var item in data) {
