@@ -14,7 +14,7 @@ function Validator(options) {
         }
     }
 
-    console.log(options.rules)
+    // console.log(options.rules)
 
     var selectorRules = {};
 
@@ -77,7 +77,7 @@ function Validator(options) {
                 }
             });
 
-            if (isFormValid) {
+            // if (isFormValid) {
                 // Trường hợp submit với javascript
                 if (typeof options.onSubmit === 'function') {
                     var enableInputs = formElement.querySelectorAll('[name]');
@@ -111,13 +111,32 @@ function Validator(options) {
 
                         return values;
                     }, {});
-                    options.onSubmit(formValues);
+                    var bool ;
+                    var errors = formElement.querySelectorAll(options.errorSelector)
+                    console.log(errors);
+                    for (var i = 0; i < errors.length; i++) {
+                        console.log(errors[i]);
+                        if (errors[i].textContent == '') {
+                            
+                            bool = true;
+                        } else {
+                            bool = false;
+                            break;
+                        }
+                    }
+                    if (bool) {
+                        options.onSubmit(formValues);
+                    } else {
+                        options.onSubmit(null);
+                    }
+                    console.log(bool);
+                    
                 }
                 // Trường hợp submit với hành vi mặc định
                 else {
                     formElement.submit();
                 }
-            }
+            // }
         }
 
         // Lặp qua mỗi rule và xử lý (lắng nghe sự kiện blur, input, ...)

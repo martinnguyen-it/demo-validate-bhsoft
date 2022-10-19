@@ -120,7 +120,7 @@
             ],
         onSubmit: function (data = null) {
             if (data != null) {
-                console.log(data);
+                // console.log(data);
                 var printFile = '<strong>THÔNG TIN ĐÃ NHẬP: </strong> <br>' ;
                 for (var item in data) {
                     if (!item.value)
@@ -140,9 +140,9 @@
 
          // Hiển thị Ô nhập marital-status-other
          const showS = document.querySelectorAll('input[name="marital-status"]');
-        console.log(showS);
+        // console.log(showS);
         for (var show of showS) {
-            console.log(show.value);    
+            // console.log(show.value);    
             if (show.value == "Other") {
                 show.addEventListener("click", () => {
                     document.querySelector('.status-other').classList.add('open');
