@@ -1,5 +1,8 @@
 // Đối tượng `Validator`
 function Validator(options) {
+
+    
+
     function getParent(element, selector) {
         while (element.parentElement) {
             if (element.parentElement.matches(selector)) {
@@ -8,6 +11,8 @@ function Validator(options) {
             element = element.parentElement;
         }
     }
+
+    console.log(options.rules)
 
     var selectorRules = {};
 
@@ -24,6 +29,7 @@ function Validator(options) {
         for (var i = 0; i < rules.length; ++i) {
             switch (inputElement.type) {
                 case 'radio':
+                case 'checkbox':
                     errorMessage = rules[i](
                         formElement.querySelector(rule.selector + ':checked')
                     );
@@ -71,10 +77,21 @@ function Validator(options) {
                         
                         switch(input.type) {
                             case 'radio':
-                                if(formElement.querySelector('input[name="' + input.name + '"]:checked')){
-
-                                    values[input.name] = formElement.querySelector('input[name="' + input.name + '"]:checked').value;
+                                values[input.name] = formElement.querySelector('input[name="' + input.name + '"]:checked').value;
+                                break;
+                            case 'checkbox':
+                                if (!input.matches(':checked')) {
+                                    values[input.name] = '';
+                                    return values;
                                 }
+                                if (!Array.isArray(values[input.name])) {
+                                    values[input.name] = [];
+                                }
+                                values[input.name].push(input.value);
+                                break;
+                            case 'file':
+                                values[input.name] = input.files;
+                                break;
                             default:
                                 values[input.name] = input.value;
                         }
