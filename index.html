@@ -78,7 +78,7 @@
 
         <div class="form-group form-text status-other animation-wide">
             <label for="">Marital status(other) <span>*</span></label>
-            <input type="text" name="marital-status-other">
+            <input type="text" name="marital_status_other">
             <span class="form-message"></span>
         </div>
 
@@ -116,12 +116,19 @@
                 Validator.isEmail('#email'),
                 Validator.isRequired('#gender'),
                 Validator.isRequired('input[name="marital-status"]'),
-                Validator.isRequired('#marital-status-other')
+                Validator.isRequired('#marital_status_other')
             ],
         onSubmit: function (data = null) {
             if (data != null) {
                 // console.log(data);
                 var printFile = '<strong>THÔNG TIN ĐÃ NHẬP: </strong> <br>' ;
+
+                for (var item in data) {
+                    if (data[item] == "Other")
+                        data[item] = data.marital_status_other;
+                }
+                delete data.marital_status_other;
+
                 for (var item in data) {
                     if (!item.value)
                         item.value = ' ';
@@ -136,22 +143,22 @@
         })
 
 
-        // document.querySelector('.status-other input').setAttribute('id', 'marital-status-other');
+        // document.querySelector('.status-other input').setAttribute('id', 'marital_status_other');
 
-         // Hiển thị Ô nhập marital-status-other
-         const showS = document.querySelectorAll('input[name="marital-status"]');
+         // Hiển thị Ô nhập marital_status_other
+        const showS = document.querySelectorAll('input[name="marital-status"]');
         // console.log(showS);
         for (var show of showS) {
             // console.log(show.value);    
             if (show.value == "Other") {
                 show.addEventListener("click", () => {
                     document.querySelector('.status-other').classList.add('open');
-                    document.querySelector('.status-other input').setAttribute('id', 'marital-status-other');
+                    document.querySelector('.status-other input').setAttribute('id', 'marital_status_other');
                 })
             } else {
                 show.addEventListener("click", () => {
                     document.querySelector('.status-other').classList.remove('open');
-                    document.querySelector('.status-other input').removeAttribute('id', 'marital-status-other');
+                    document.querySelector('.status-other input').removeAttribute('id', 'marital_status_other');
                 })
             }
         }
